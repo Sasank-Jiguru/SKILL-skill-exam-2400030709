@@ -1,0 +1,7 @@
+@'
+.metadata/
+*.log
+bin/
+target/
+InsurancePolicyService/target/
+'@ | Set-Content -Path .gitignore -Encoding utf8
