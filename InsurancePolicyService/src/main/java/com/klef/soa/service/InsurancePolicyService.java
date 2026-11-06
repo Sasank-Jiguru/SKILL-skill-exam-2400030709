@@ -1,22 +1,14 @@
 package com.klef.soa.service;
 
 import java.util.List;
-
 import com.klef.soa.entity.InsurancePolicy;
 
-public interface InsurancePolicyService
-{
-    public String addInsurancePolicy(InsurancePolicy policy);
-
-    public List<InsurancePolicy> viewAllPolicies();
-
-    public InsurancePolicy viewPolicyById(Long id);
-
-    public String updateInsurancePolicy(InsurancePolicy policy);
-
-    public String deleteInsurancePolicy(Long id);
-
-    public List<InsurancePolicy> findByName(String name);
-
-    public List<InsurancePolicy> findByType(String type);
+public interface InsurancePolicyService {
+    String addInsurancePolicy(InsurancePolicy policy);
+    List<InsurancePolicy> viewAllPolicies();
+    InsurancePolicy viewPolicyById(Long id);
+    String updateInsurancePolicy(InsurancePolicy policy);
+    String deleteInsurancePolicy(Long id);
+    List<InsurancePolicy> findByName(String name);
+    List<InsurancePolicy> findByType(String type);
 }

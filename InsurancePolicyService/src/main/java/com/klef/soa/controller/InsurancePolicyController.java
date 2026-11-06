@@ -1,8 +1,6 @@
 package com.klef.soa.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,116 +16,92 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.klef.soa.entity.InsurancePolicy;
-import com.klef.soa.security.JwtUtil;
 import com.klef.soa.service.InsurancePolicyService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/insurancepolicy")
 @CrossOrigin("*")
-public class InsurancePolicyController
-{
+@Tag(name = "Insurance Policy Controller", description = "CRUD and search operations for Insurance Policies")
+public class InsurancePolicyController {
+
     @Autowired
     private InsurancePolicyService insurancePolicyService;
 
-    @Autowired
-    private JwtUtil jwtUtil;
-
     // Home Endpoint
     @GetMapping("/")
-    public ResponseEntity<String> home()
-    {
+    @Operation(summary = "Microservice health status")
+    public ResponseEntity<String> home() {
         return ResponseEntity.ok("Insurance Policy Microservice Running - ID: 2400030709");
     }
 
-    // Public Test API (Requirement for integration tests)
+    // Public Test API
     @GetMapping("/test")
-    public ResponseEntity<String> testApi()
-    {
+    @Operation(summary = "Test API Endpoint")
+    public ResponseEntity<String> testApi() {
         return ResponseEntity.ok("Test API Call");
-    }
-
-    // JWT Login Endpoint
-    @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> loginRequest)
-    {
-        String username = loginRequest.getOrDefault("email", loginRequest.get("username"));
-        if (username == null || username.isBlank()) {
-            username = "admin@gmail.com";
-        }
-
-        String token = jwtUtil.generateToken(username);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("token", token);
-        response.put("message", "Login successful");
-        response.put("username", username);
-
-        return ResponseEntity.ok(response);
     }
 
     // Insert (Create)
     @PostMapping("/add")
-    public ResponseEntity<String> addInsurancePolicy(@RequestBody InsurancePolicy policy)
-    {
+    @Operation(summary = "Add a new insurance policy")
+    public ResponseEntity<String> addInsurancePolicy(@RequestBody InsurancePolicy policy) {
         String message = insurancePolicyService.addInsurancePolicy(policy);
         return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
-    // Display All (Supports both /viewall and /displayall)
-    @GetMapping({"/displayall"})
-    public ResponseEntity<List<InsurancePolicy>> viewAllPolicies()
-    {
+    // Display All
+    @GetMapping("/displayall")
+    @Operation(summary = "Display all insurance policies")
+    public ResponseEntity<List<InsurancePolicy>> viewAllPolicies() {
         List<InsurancePolicy> policyList = insurancePolicyService.viewAllPolicies();
         return new ResponseEntity<>(policyList, HttpStatus.OK);
     }
 
-    // Display By ID (Supports both /view/{id} and /display/{id})
-    @GetMapping({"/display/{id}"})
-    public ResponseEntity<?> viewPolicyById(@PathVariable Long id)
-    {
+    // Display By ID
+    @GetMapping("/display/{id}")
+    @Operation(summary = "Display policy by ID")
+    public ResponseEntity<?> viewPolicyById(@PathVariable Long id) {
         InsurancePolicy policy = insurancePolicyService.viewPolicyById(id);
-
-        if(policy != null)
-        {
+        if (policy != null) {
             return new ResponseEntity<>(policy, HttpStatus.OK);
         }
-
         return new ResponseEntity<>("Policy Not Found", HttpStatus.NOT_FOUND);
     }
 
-    // Update (Supports both /update and /update/{id})
-    @PutMapping({"/update/{id}"})
+    // Update
+    @PutMapping("/update/{id}")
+    @Operation(summary = "Update an existing policy by ID")
     public ResponseEntity<String> updateInsurancePolicy(
-            @PathVariable(required = false) Long id,
-            @RequestBody InsurancePolicy policy)
-    {
-        if (id != null && policy.getInsurancePolicyId() == null) {
-            policy.setInsurancePolicyId(id);
-        }
+            @PathVariable Long id,
+            @RequestBody InsurancePolicy policy) {
+        policy.setInsurancePolicyId(id);
         String message = insurancePolicyService.updateInsurancePolicy(policy);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     // Delete
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteInsurancePolicy(@PathVariable Long id)
-    {
+    @Operation(summary = "Delete policy by ID")
+    public ResponseEntity<String> deleteInsurancePolicy(@PathVariable Long id) {
         String message = insurancePolicyService.deleteInsurancePolicy(id);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     // Custom Finder: findByName
     @GetMapping("/findbyname/{name}")
-    public ResponseEntity<List<InsurancePolicy>> findByName(@PathVariable String name)
-    {
+    @Operation(summary = "Find policies by name")
+    public ResponseEntity<List<InsurancePolicy>> findByName(@PathVariable String name) {
         List<InsurancePolicy> policyList = insurancePolicyService.findByName(name);
         return new ResponseEntity<>(policyList, HttpStatus.OK);
     }
 
     // Custom Finder: findByType
     @GetMapping("/findbytype/{type}")
-    public ResponseEntity<List<InsurancePolicy>> findByType(@PathVariable String type)
-    {
+    @Operation(summary = "Find policies by type")
+    public ResponseEntity<List<InsurancePolicy>> findByType(@PathVariable String type) {
         List<InsurancePolicy> policyList = insurancePolicyService.findByType(type);
         return new ResponseEntity<>(policyList, HttpStatus.OK);
     }

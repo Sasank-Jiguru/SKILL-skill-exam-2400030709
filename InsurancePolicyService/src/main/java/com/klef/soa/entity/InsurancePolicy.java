@@ -1,10 +1,5 @@
 package com.klef.soa.entity;
 
-import java.time.LocalDateTime;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,110 +8,82 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="insurancepolicy_table")
-public class InsurancePolicy
-{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="policy_id")
-	private Long insurancePolicyId;
+@Table(name = "insurance_policies")
+public class InsurancePolicy {
 
-	@Column(nullable=false,length=100)
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long insurancePolicyId;
 
-	@Column(nullable=false,length=50)
-	private String type;
+    @Column(nullable = false)
+    private String name;
 
-	@Column(nullable=false,length=50)
-	private String status;
+    @Column(nullable = false)
+    private String type;
 
-	@Column(nullable=false,length=100)
-	private String location;
+    private String description;
 
-	@CreationTimestamp
-	private LocalDateTime createdAt;
+    private String status;
 
-	@UpdateTimestamp
-	private LocalDateTime updatedAt;
+    // Default Constructor
+    public InsurancePolicy() {
+    }
 
-	public InsurancePolicy() {
-	}
+    // Parameterized Constructor
+    public InsurancePolicy(Long insurancePolicyId, String name, String type, String description, String status) {
+        this.insurancePolicyId = insurancePolicyId;
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.status = status;
+    }
 
-	public InsurancePolicy(Long insurancePolicyId, String name, String type, String status, String location) {
-		this.insurancePolicyId = insurancePolicyId;
-		this.name = name;
-		this.type = type;
-		this.status = status;
-		this.location = location;
-	}
+    // Constructor without ID
+    public InsurancePolicy(String name, String type, String description, String status) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.status = status;
+    }
 
-	public InsurancePolicy(String name, String type, String status, String location) {
-		this.name = name;
-		this.type = type;
-		this.status = status;
-		this.location = location;
-	}
+    // Getters and Setters
+    public Long getInsurancePolicyId() {
+        return insurancePolicyId;
+    }
 
-	public Long getInsurancePolicyId() {
-		return insurancePolicyId;
-	}
+    public void setInsurancePolicyId(Long insurancePolicyId) {
+        this.insurancePolicyId = insurancePolicyId;
+    }
 
-	public void setInsurancePolicyId(Long insurancePolicyId) {
-		this.insurancePolicyId = insurancePolicyId;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	@Override
-	public String toString() {
-		return "InsurancePolicy [insurancePolicyId=" + insurancePolicyId + ", name=" + name + ", type=" + type
-				+ ", status=" + status + ", location=" + location + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + "]";
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

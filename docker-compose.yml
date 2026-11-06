@@ -21,16 +21,16 @@ services:
 
   backend:
     build:
-      context: .
+      context: ./InsurancePolicyService
       dockerfile: Dockerfile
-    image: sasankjiguru/insurancepolicy-backend:latest
+    image: docker-skill-exam-2400030709:latest
     container_name: backend-service
     restart: always
     depends_on:
       postgres:
         condition: service_healthy
     ports:
-      - "2006:2006"
+      - "0709:2006"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/soataskdb
       SPRING_DATASOURCE_USERNAME: postgres
